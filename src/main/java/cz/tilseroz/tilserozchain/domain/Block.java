@@ -8,11 +8,11 @@ import java.util.Date;
 public class Block {
 
     private String hash; //digital signature
-    private String previousHash; // previous block's hash
+    private final String previousHash; // previous block's hash
     private String data; // data
     public ArrayList<Transaction> transactions = new ArrayList<>(); //our data will be a simple message.
     public String merkleRoot;
-    private long timeStamp;
+    private final long timeStamp;
     private int nonce;
 
     //Block Constructor.
@@ -25,19 +25,18 @@ public class Block {
 
     //Calculate new hash based on blocks contents
     public String calculateHash() {
-        String calculatedhash = FingerprintUtil.applySha256(
+        return FingerprintUtil.applySha256(
                 previousHash +
-                        Long.toString(timeStamp) +
-                        Integer.toString(nonce) +
+                        timeStamp +
+                        nonce +
                         merkleRoot
         );
-        return calculatedhash;
     }
 
     //Increases nonce value until hash target is reached.
     public void mineBlock(int difficulty) {
         merkleRoot = FingerprintUtil.getMerkleRoot(transactions);
-        String target = new String(new char[difficulty]).replace('\0', '0');; //Create a string with difficulty * "0"
+        String target = new String(new char[difficulty]).replace('\0', '0'); //Create a string with difficulty * "0"
         while (!hash.substring(0, difficulty).equals(target)) {
             nonce++;
             hash = calculateHash();

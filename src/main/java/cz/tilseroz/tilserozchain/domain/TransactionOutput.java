@@ -12,11 +12,11 @@ public class TransactionOutput {
     public String parentTransactionId; //the id of the transaction this output was created in
 
     //Constructor
-    public TransactionOutput(PublicKey reciepient, float value, String parentTransactionId) {
-        this.recipient = reciepient;
+    public TransactionOutput(PublicKey recipient, float value, String parentTransactionId) {
+        this.recipient = recipient;
         this.value = value;
         this.parentTransactionId = parentTransactionId;
-        this.id = FingerprintUtil.applySha256(FingerprintUtil.getStringFromKey(reciepient) + value + parentTransactionId);
+        this.id = FingerprintUtil.applySha256(FingerprintUtil.getStringFromKey(recipient) + value + parentTransactionId);
     }
 
     //Check if coin belongs to you
